@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { loginUser } from "../services/api";
 
+console.log(import.meta.env.VITE_API_URL);
+
 function Login({ setToken }) {
   const [form, setForm] = useState({ username: "", password: "" });
   const [error, setError] = useState(null);
