@@ -4,24 +4,24 @@ const API = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
 });
 
-export const loginUser = (credentials) => API.post("/auth/", credentials);
+export const loginUser = (credentials) => axios.post(`${API}/auth/`, credentials);
 
 export const getTasks = (token) =>
-  API.get("/tasks/", {
+  axios.get(`${API}/tasks/`, {
     headers: { Authorization: `Token ${token}` },
   });
 
 export const createTask = (task, token) =>
-  API.post("/tasks/", task, {
+  axios.post(`${API}/tasks/`, task, {
     headers: { Authorization: `Token ${token}` },
   });
 
 export const updateTask = (id, task, token) =>
-  API.put(`/tasks/${id}/`, task, {
+  axios.put(`${API}/tasks/${id}/`, task, {
     headers: { Authorization: `Token ${token}` },
   });
 
 export const deleteTask = (id, token) =>
-  API.delete(`/tasks/${id}/`, {
+  axios.delete(`${API}/tasks/${id}/`, {
     headers: { Authorization: `Token ${token}` },
   });
