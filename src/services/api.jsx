@@ -1,27 +1,21 @@
-import axios from "axios";
-
-const API = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
-});
-
-export const loginUser = (credentials) => axios.post(`${API}auth/`, credentials);
+export const loginUser = (credentials) => API.post("auth/", credentials);
 
 export const getTasks = (token) =>
-  axios.get(`${API}tasks/`, {
+  API.get("tasks/", {
     headers: { Authorization: `Token ${token}` },
   });
 
 export const createTask = (task, token) =>
-  axios.post(`${API}tasks/`, task, {
+  API.post("tasks/", task, {
     headers: { Authorization: `Token ${token}` },
   });
 
 export const updateTask = (id, task, token) =>
-  axios.put(`${API}tasks/${id}/`, task, {
+  API.put(`tasks/${id}/`, task, {
     headers: { Authorization: `Token ${token}` },
   });
 
 export const deleteTask = (id, token) =>
-  axios.delete(`${API}tasks/${id}/`, {
+  API.delete(`tasks/${id}/`, {
     headers: { Authorization: `Token ${token}` },
   });
