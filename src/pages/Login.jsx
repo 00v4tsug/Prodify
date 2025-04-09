@@ -3,18 +3,26 @@ import { loginUser } from "../services/api";
 
 function Login({ setToken }) {
   const [form, setForm] = useState({ username: "", password: "" });
+  const [error, setError] = useState(null);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+    setError(null); // limpa o erro ao digitar
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await loginUser(form);
-    const token = res.data.token;
 
-    localStorage.setItem("token", token); // salva no navegador
-    setToken(token);                      // ativa navegação no App
+    try {
+      const res = await loginUser(form);
+      const token = res.data.token;
+
+      localStorage.setItem("token", token);
+      setToken(token);
+    } catch (err) {
+      console.error("Login falhou:", err);
+      setError("Usuário ou senha inválidos.");
+    }
   };
 
   return (
@@ -24,6 +32,11 @@ function Login({ setToken }) {
         className="bg-[#2e2e3a] p-8 rounded-2xl shadow-2xl max-w-sm w-full space-y-4"
       >
         <h2 className="text-3xl font-bold mb-4 text-purple-400 text-center">Prodify</h2>
+        
+        {error && (
+          <p className="text-red-500 text-sm text-center">{error}</p>
+        )}
+
         <input
           type="text"
           name="username"
