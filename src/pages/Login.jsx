@@ -3,18 +3,23 @@ import { loginUser } from "../services/api";
 
 function Login({ setToken }) {
   const [form, setForm] = useState({ username: "", password: "" });
+  const [error, setError] = useState(null);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await loginUser(form);
-    const token = res.data.token;
-
-    localStorage.setItem("token", token); // salva no navegador
-    setToken(token);                      // ativa navegação no App
+    try {
+      const res = await login(form);
+      setToken(res.data.token);
+      localStorage.setItem("token", res.data.token); // salvar token
+      setError(null);
+    } catch (err) {
+      console.error("Login falhou:", err);
+      setError("Usuário ou senha inválidos");
+    }
   };
 
   return (
@@ -42,6 +47,7 @@ function Login({ setToken }) {
           className="w-full p-3 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
           required
         />
+        {error && <p className="text-red-400 text-sm mb-2">{error}</p>}
         <button
           type="submit"
           className="w-full bg-purple-600 hover:bg-purple-700 text-white p-3 rounded-lg font-semibold transition"

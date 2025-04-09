@@ -8,11 +8,12 @@ function App() {
   const [token, setToken] = useState(null);
 
   useEffect(() => {
-    const savedToken = localStorage.getItem("token");
-    if (savedToken) {
-      setToken(savedToken);
+    if (token) {
+      localStorage.setItem("token", token);
+    } else {
+      localStorage.removeItem("token");
     }
-  }, []);
+  }, [token]);
 
   return (
     <BrowserRouter>
